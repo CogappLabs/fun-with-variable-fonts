@@ -27,6 +27,7 @@ const shared = {
     8: {
       property: "--l",
       setter: (value) =>
+        // Restrict lightness to prevent text disappearing into background
         `${map(value, [0, 127], [darkMode ? 50 : 0, darkMode ? 100 : 50])}%`,
       locked: false,
     },
@@ -87,7 +88,10 @@ font-variation-settings: ${compStyles.getPropertyValue(
     "font-variation-settings"
   )};
 `;
-  document.body.style.setProperty('--accent-color', compStyles.getPropertyValue("color"));
+  document.body.style.setProperty(
+    "--accent-color",
+    compStyles.getPropertyValue("color")
+  );
 };
 
 function randomiseParameters(once = true, transitionTime = 300) {
@@ -105,15 +109,17 @@ function randomiseParameters(once = true, transitionTime = 300) {
 
   for (const param in combinedParams) {
     if (!combinedParams[param].locked) {
-      const newValue = Math.random() * 127
+      const newValue = Math.random() * 127;
       textElem.style.setProperty(
         combinedParams[param].property,
         combinedParams[param].setter(Math.random() * 127)
       );
       // Update the associated input
-      const rangeInput = document.querySelector(`input[type="range"][data-param="${param}"]`)
+      const rangeInput = document.querySelector(
+        `input[type="range"][data-param="${param}"]`
+      );
       if (rangeInput) {
-        rangeInput.value = newValue
+        rangeInput.value = newValue;
       }
     }
   }
@@ -129,7 +135,9 @@ function randomiseParameters(once = true, transitionTime = 300) {
   updateComputedStyles(textElem);
 }
 
-function runAnimateMode() {
+function toggleAnimateMode() {
+  animateMode = !animateMode;
+
   if (animateMode) {
     animateInterval = setInterval(randomiseParameters, 2000, false, 700);
   } else {
@@ -138,9 +146,10 @@ function runAnimateMode() {
   }
 }
 
-function setBgColor() {
+function toggleDarkMode() {
+  darkMode = !darkMode;
   document.body.style.setProperty(
-    "background-color",
+    "--background-color",
     darkMode ? "#000" : "#fff"
   );
   document.body.style.setProperty("--text-color", darkMode ? "#fff" : "#000");
@@ -153,25 +162,21 @@ function updateCustomProperty(status, ccNumber, value) {
       // Note-on event
       if (status.startsWith("9")) {
         randomiseParameters(true);
-
         updateComputedStyles(textElem);
       }
-
       break;
     // constantly animate
     case 41:
       // Note-on event
       if (status.startsWith("9")) {
-        animateMode = !animateMode;
-        runAnimateMode();
+        toggleAnimateMode();
       }
       break;
     // Dark mode
     case 42:
       // Note-on event
       if (status.startsWith("9")) {
-        darkMode = !darkMode;
-        setBgColor();
+        toggleDarkMode();
       }
       break;
     // knob has been turned
@@ -188,11 +193,13 @@ function updateCustomProperty(status, ccNumber, value) {
         );
 
         // Update the associated input
-        const rangeInput = document.querySelector(`input[type="range"][data-param="${ccNumber}"]`)
+        const rangeInput = document.querySelector(
+          `input[type="range"][data-param="${ccNumber}"]`
+        );
         if (rangeInput) {
-          rangeInput.value = value
+          rangeInput.value = value;
         }
-      } 
+      }
 
       updateComputedStyles(textElem);
   }
@@ -232,35 +239,55 @@ navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
 
 updateComputedStyles(textElem);
 
-const sliders = document.querySelectorAll('input[type="range"]')
+const sliders = document.querySelectorAll('input[type="range"]');
 
-sliders.forEach(input => 
+sliders.forEach((input) =>
   input.addEventListener("change", (e) => {
     const combinedParams = {
       ...shared.params,
       ...recursive.params,
     };
 
-    const value = e.currentTarget.value
+    const value = e.currentTarget.value;
     textElem.style.setProperty(
       combinedParams[e.currentTarget.dataset.param].property,
       combinedParams[e.currentTarget.dataset.param].setter(value)
     );
-    combinedParams[e.currentTarget.dataset.param].setter(value)
+    combinedParams[e.currentTarget.dataset.param].setter(value);
     updateComputedStyles(textElem);
   })
-)
+);
 
-const lockCheckboxes = document.querySelectorAll('input[type="checkbox"]')
+const lockCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 
-lockCheckboxes.forEach(input => 
+lockCheckboxes.forEach((input) =>
   input.addEventListener("change", (e) => {
     const combinedParams = {
       ...shared.params,
       ...recursive.params,
     };
 
-    const checked = e.currentTarget.checked
-    combinedParams[e.currentTarget.dataset.param].locked = checked
+    const checked = e.currentTarget.checked;
+    combinedParams[e.currentTarget.dataset.param].locked = checked;
   })
-)
+);
+
+const randomiseButton = document.querySelector("#randomise");
+
+randomiseButton.addEventListener("click", randomiseParameters);
+
+const toggleAnimationButton = document.querySelector("#toggle-animation");
+
+toggleAnimationButton.addEventListener("click", (e) => {
+  toggleAnimateMode();
+  e.currentTarget.innerHTML = `${
+    animateMode == true ? "Stop" : "Start"
+  } animation`;
+});
+
+const toggleDarkModeButton = document.querySelector("#toggle-dark-mode");
+
+toggleDarkModeButton.addEventListener("click", (e) => {
+  toggleDarkMode();
+  e.currentTarget.innerHTML = `Dark mode ${darkMode == true ? "off" : "on"}`;
+});

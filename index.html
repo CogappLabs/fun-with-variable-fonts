@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="/style.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
     <title>Vite App</title>
   </head>
   <body>
@@ -15,69 +18,171 @@
         <details>
           <summary>Show controls</summary>
           <ul class="js-controls">
-            <label for="mono">
-              Monospace
-              <input type="range" id="mono" min="0" max="127" data-param="1">
-            </label>
-            <label for="lock-mono">
-              <input type="checkbox" id="lock-mono" data-type="shared" data-param="1">Lock
-            </label>
-            <hr>
-            <label for="casl">
-              Casual
-              <input type="range" id="casl" min="0" max="127" data-param="2">
-            </label>
-            <label for="lock-casl">
-              <input type="checkbox" id="lock-casl" data-type="shared" data-param="2">Lock
-            </label>
-            <hr>
-            <label for="wght">
-              Weight
-              <input type="range" id="wght" min="0" max="127" data-param="3">
-            </label>
-            <label for="lock-wght">
-              <input type="checkbox" id="lock-wght" data-type="shared" data-param="3">Lock
-            </label>
-            <hr>
-            <label for="slnt">
-              Slant
-              <input type="range" id="slnt" min="0" max="127" data-param="4">
-            </label>
-            <label for="lock-slnt">
-              <input type="checkbox" id="lock-slnt" data-type="shared" data-param="4">Lock
-            </label>
-            <hr>
-            <label for="font-size">
-              Font size
-              <input type="range" id="font-size" min="0" max="127" data-param="5">
-            </label>
-            <label for="lock-font-size">
-              <input type="checkbox" id="lock-font-size" data-type="shared" data-param="5">Lock
-            </label>
-            <hr>
-            <label for="hue">
-              Hue
-              <input type="range" id="hue" min="0" max="127" data-param="6">
-            </label>
-            <label for="lock-hue">
-              <input type="checkbox" id="lock-hue" data-type="shared" data-param="6">Lock
-            </label>
-            <hr>
-            <label for="saturation">
-              Saturation
-              <input type="range" id="saturation" min="0" max="127" data-param="7">
-            </label>
-            <label for="lock-saturation">
-              <input type="checkbox" id="lock-saturation" data-type="shared" data-param="7">Lock
-            </label>
-            <hr>
-            <label for="lightness">
-              Lightness
-              <input type="range" id="lightness" min="0" max="127" data-param="8">
-            </label>
-            <label for="lock-lightness">
-              <input type="checkbox" id="lock-lightness" data-type="shared" data-param="8">Lock
-            </label>
+            <li>
+              <label for="mono">
+                Monospace
+                <input
+                  type="range"
+                  id="mono"
+                  min="0"
+                  max="127"
+                  data-param="1"
+                />
+              </label>
+              <label for="lock-mono">
+                <input
+                  type="checkbox"
+                  id="lock-mono"
+                  data-type="shared"
+                  data-param="1"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <label for="casl">
+                Casual
+                <input
+                  type="range"
+                  id="casl"
+                  min="0"
+                  max="127"
+                  data-param="2"
+                />
+              </label>
+              <label for="lock-casl">
+                <input
+                  type="checkbox"
+                  id="lock-casl"
+                  data-type="shared"
+                  data-param="2"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <label for="wght">
+                Weight
+                <input
+                  type="range"
+                  id="wght"
+                  min="0"
+                  max="127"
+                  data-param="3"
+                />
+              </label>
+              <label for="lock-wght">
+                <input
+                  type="checkbox"
+                  id="lock-wght"
+                  data-type="shared"
+                  data-param="3"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <label for="slnt">
+                Slant
+                <input
+                  type="range"
+                  id="slnt"
+                  min="0"
+                  max="127"
+                  data-param="4"
+                />
+              </label>
+              <label for="lock-slnt">
+                <input
+                  type="checkbox"
+                  id="lock-slnt"
+                  data-type="shared"
+                  data-param="4"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <label for="font-size">
+                Font size
+                <input
+                  type="range"
+                  id="font-size"
+                  min="0"
+                  max="127"
+                  data-param="5"
+                />
+              </label>
+              <label for="lock-font-size">
+                <input
+                  type="checkbox"
+                  id="lock-font-size"
+                  data-type="shared"
+                  data-param="5"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <label for="hue">
+                Hue
+                <input type="range" id="hue" min="0" max="127" data-param="6" />
+              </label>
+              <label for="lock-hue">
+                <input
+                  type="checkbox"
+                  id="lock-hue"
+                  data-type="shared"
+                  data-param="6"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <label for="saturation">
+                Saturation
+                <input
+                  type="range"
+                  id="saturation"
+                  min="0"
+                  max="127"
+                  data-param="7"
+                />
+              </label>
+              <label for="lock-saturation">
+                <input
+                  type="checkbox"
+                  id="lock-saturation"
+                  data-type="shared"
+                  data-param="7"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <label for="lightness">
+                Lightness
+                <input
+                  type="range"
+                  id="lightness"
+                  min="0"
+                  max="127"
+                  data-param="8"
+                />
+              </label>
+              <label for="lock-lightness">
+                <input
+                  type="checkbox"
+                  id="lock-lightness"
+                  data-type="shared"
+                  data-param="8"
+                />Lock
+              </label>
+            </li>
+            <li>
+              <button type="button" id="randomise">Randomise</button>
+            </li>
+            <li>
+              <button type="button" id="toggle-animation">
+                Start animation
+              </button>
+            </li>
+            <li>
+              <button type="button" id="toggle-dark-mode">Dark mode off</button>
+            </li>
           </ul>
         </details>
       </div>

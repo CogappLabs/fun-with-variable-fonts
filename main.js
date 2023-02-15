@@ -19,7 +19,7 @@ const shared = {
     {
       id: "hue",
       property: "--h",
-      setter: (value) => `${map(value, [0, 127], [0, 360])}`,
+      setter: (value) => `${map(value, [0, 127], [0, 100])}`,
       locked: false,
       ccNumber: 6,
     },
@@ -243,7 +243,7 @@ function updateCustomProperty(status, ccNumber, value) {
 
         // Update the associated input
         const rangeInput = document.querySelector(
-          `input[type="range"][data-param="${ccNumber}"]`
+          `input[type="range"][id="${param.id}"]`
         );
         if (rangeInput) {
           rangeInput.value = value;

@@ -50,9 +50,9 @@ button {
 
 #text {
   --size: 24px;
-  --h: 0;
-  --s: 100%;
-  --l: 100%;
+  --h: 50;
+  --s: 50%;
+  --l: 50%;
 
   font-size: var(--size);
   color: hsl(var(--h), var(--s), var(--l));

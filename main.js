@@ -144,6 +144,7 @@ function randomiseParameters(once = true, transitionTime = 300) {
   );
 
   for (const param in combinedParams) {
+    // Exclude parameters without a 'property'
     if (!combinedParams[param].locked && 'property' in combinedParams[param]) {
       const newValue = Math.random() * 127;
       textElem.style.setProperty(
@@ -192,7 +193,6 @@ function toggleDarkMode() {
 }
 
 function updateCustomProperty(status, ccNumber, value) {
-  
   const combinedParams = [
     ...shared.params,
     ...recursive.params,
@@ -266,17 +266,18 @@ const sliders = document.querySelectorAll('input[type="range"]');
 
 sliders.forEach((input) =>
   input.addEventListener("change", (e) => {
-    const combinedParams = {
+    const combinedParams = [
       ...shared.params,
       ...recursive.params,
-    };
+    ];
 
     const value = e.currentTarget.value;
+    const param = combinedParams.find((param) => param.property === e.currentTarget.dataset.property)
+
     textElem.style.setProperty(
-      combinedParams[e.currentTarget.dataset.param].property,
-      combinedParams[e.currentTarget.dataset.param].setter(value)
+      param.property,
+      param.setter(value)
     );
-    combinedParams[e.currentTarget.dataset.param].setter(value);
     updateComputedStyles(textElem);
   })
 );
@@ -285,13 +286,14 @@ const lockCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 
 lockCheckboxes.forEach((input) =>
   input.addEventListener("change", (e) => {
-    const combinedParams = {
+    const combinedParams = [
       ...shared.params,
       ...recursive.params,
-    };
+    ];
 
     const checked = e.currentTarget.checked;
-    combinedParams[e.currentTarget.dataset.param].locked = checked;
+    const param = combinedParams.find((param) => param.property === e.currentTarget.dataset.property)
+    param.locked = checked;
   })
 );
 

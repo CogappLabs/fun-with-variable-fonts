@@ -8,56 +8,92 @@ let animateInterval = null;
 const textElem = document.getElementById("text");
 
 const shared = {
-  params: {
-    5: {
+  params: [
+    {
       property: "--size",
       setter: (value) => `${map(value, [0, 127], [24, 128])}px`,
       locked: false,
+      ccNumber: 5,
     },
-    6: {
+    {
       property: "--h",
       setter: (value) => `${map(value, [0, 127], [0, 360])}`,
       locked: false,
+      ccNumber: 6,
     },
-    7: {
+    {
       property: "--s",
       setter: (value) => `${map(value, [0, 127], [0, 100])}%`,
       locked: false,
+      ccNumber: 7,
     },
-    8: {
+    {
       property: "--l",
       setter: (value) =>
         // Restrict lightness to prevent text disappearing into background
         `${map(value, [0, 127], [darkMode ? 50 : 0, darkMode ? 100 : 50])}%`,
       locked: false,
+      ccNumber: 8,
     },
-  },
+    {
+      action: (status) => {
+        if (status.startsWith("9")) {
+          randomiseParameters(true);
+          updateComputedStyles(textElem);
+        }
+      },
+      ccNumber: 40,
+    },
+    {
+      action: (status) => {
+        // Note-on event
+        if (status.startsWith("9")) {
+          toggleAnimateMode();
+        }
+      },
+      ccNumber: 41,
+    },
+    {
+      action: (status) => {
+        // Note-on event
+        if (status.startsWith("9")) {
+          toggleDarkMode();
+        }
+      },
+      ccNumber: 42,
+    },
+  ],
 };
 
+// Font-specific actions
 const recursive = {
   fontFamily: "'Recursive', monospace",
-  params: {
-    1: {
+  params: [
+    {
       property: "--mono",
       setter: (value) => `"MONO" ${map(value, [0, 127], [0, 1])}`,
       locked: false,
+      ccNumber: 1,
     },
-    2: {
+    {
       property: "--casl",
       setter: (value) => `"CASL" ${map(value, [0, 127], [0, 1])}`,
       locked: false,
+      ccNumber: 2,
     },
-    3: {
+    {
       property: "--wght",
       setter: (value) => `"wght" ${map(value, [0, 127], [300, 1000])}`,
       locked: false,
+      ccNumber: 3,
     },
-    4: {
+    {
       property: "--slnt",
       setter: (value) => `"slnt" ${map(value, [0, 127], [-15, 0])}`,
       locked: false,
+      ccNumber: 4,
     },
-  },
+  ],
 };
 
 /**
@@ -95,10 +131,10 @@ font-variation-settings: ${compStyles.getPropertyValue(
 };
 
 function randomiseParameters(once = true, transitionTime = 300) {
-  const combinedParams = {
+  const combinedParams = [
     ...shared.params,
     ...recursive.params,
-  };
+  ];
 
   textElem.style.setProperty(
     "transition",
@@ -108,7 +144,7 @@ function randomiseParameters(once = true, transitionTime = 300) {
   );
 
   for (const param in combinedParams) {
-    if (!combinedParams[param].locked) {
+    if (!combinedParams[param].locked && 'property' in combinedParams[param]) {
       const newValue = Math.random() * 127;
       textElem.style.setProperty(
         combinedParams[param].property,
@@ -156,40 +192,25 @@ function toggleDarkMode() {
 }
 
 function updateCustomProperty(status, ccNumber, value) {
-  switch (ccNumber) {
-    // randomize
-    case 40:
-      // Note-on event
-      if (status.startsWith("9")) {
-        randomiseParameters(true);
-        updateComputedStyles(textElem);
-      }
-      break;
-    // constantly animate
-    case 41:
-      // Note-on event
-      if (status.startsWith("9")) {
-        toggleAnimateMode();
-      }
-      break;
-    // Dark mode
-    case 42:
-      // Note-on event
-      if (status.startsWith("9")) {
-        toggleDarkMode();
-      }
-      break;
-    // knob has been turned
-    default:
-      const combinedParams = {
-        ...shared.params,
-        ...recursive.params,
-      };
+  
+  const combinedParams = [
+    ...shared.params,
+    ...recursive.params,
+  ];
 
-      if (ccNumber in combinedParams && !combinedParams[ccNumber].locked) {
+  // There may be a more performant way of doing this check
+  const matchingParams = combinedParams.filter((param) => param.ccNumber === ccNumber)
+
+  if (matchingParams.length > 0) {
+    // A single CC number could control multiple parameters
+    matchingParams.forEach((param) => {
+      if ('action' in param) {
+        return param.action(status);
+      }
+      if (!param.locked) {
         textElem.style.setProperty(
-          combinedParams[ccNumber].property,
-          combinedParams[ccNumber].setter(value)
+          param.property,
+          param.setter(value)
         );
 
         // Update the associated input
@@ -200,9 +221,11 @@ function updateCustomProperty(status, ccNumber, value) {
           rangeInput.value = value;
         }
       }
-
-      updateComputedStyles(textElem);
+    })
   }
+
+  updateComputedStyles(textElem);
+
 }
 
 function onMIDIMessage(event) {

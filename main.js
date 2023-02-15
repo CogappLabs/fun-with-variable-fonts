@@ -192,6 +192,10 @@ function toggleAnimateMode() {
     clearInterval(animateInterval);
     textElem.style.setProperty("transition", "none");
   }
+
+  toggleAnimationButton.innerHTML = `${
+    animateMode == true ? "Stop" : "Start"
+  } animation`;
 }
 
 function toggleDarkMode() {
@@ -201,6 +205,7 @@ function toggleDarkMode() {
     darkMode ? "#000" : "#fff"
   );
   document.body.style.setProperty("--text-color", darkMode ? "#fff" : "#000");
+  toggleDarkModeButton.innerHTML = `Dark mode ${darkMode == true ? "off" : "on"}`;
 }
 
 function updateCustomProperty(status, ccNumber, value) {
@@ -356,14 +361,10 @@ const toggleAnimationButton = document.querySelector("#toggle-animation");
 
 toggleAnimationButton.addEventListener("click", (e) => {
   toggleAnimateMode();
-  e.currentTarget.innerHTML = `${
-    animateMode == true ? "Stop" : "Start"
-  } animation`;
 });
 
 const toggleDarkModeButton = document.querySelector("#toggle-dark-mode");
 
 toggleDarkModeButton.addEventListener("click", (e) => {
   toggleDarkMode();
-  e.currentTarget.innerHTML = `Dark mode ${darkMode == true ? "off" : "on"}`;
 });

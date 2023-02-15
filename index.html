@@ -17,173 +17,285 @@
       <div class="controls">
         <details>
           <summary>Show controls</summary>
-          <ul class="js-controls">
-            <li>
-              <label for="mono">
-                Monospace
-                <input
-                  type="range"
-                  id="mono"
-                  min="0"
-                  max="127"
-                  data-property="--mono"
-                />
-              </label>
-              <label for="lock-mono">
-                <input
-                  type="checkbox"
-                  id="lock-mono"
-                  data-type="shared"
-                  data-property="--mono"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <label for="casl">
-                Casual
-                <input
-                  type="range"
-                  id="--casl"
-                  min="0"
-                  max="127"
-                  data-property="--casl"
-                />
-              </label>
-              <label for="lock-casl">
-                <input
-                  type="checkbox"
-                  id="lock-casl"
-                  data-type="shared"
-                  data-property="--casl"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <label for="wght">
-                Weight
-                <input
-                  type="range"
-                  id="wght"
-                  min="0"
-                  max="127"
-                  data-property="--wght"
-                />
-              </label>
-              <label for="lock-wght">
-                <input
-                  type="checkbox"
-                  id="lock-wght"
-                  data-type="shared"
-                  data-property="--wght"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <label for="slnt">
-                Slant
-                <input
-                  type="range"
-                  id="slnt"
-                  min="0"
-                  max="127"
-                  data-property="--slnt"
-                />
-              </label>
-              <label for="lock-slnt">
-                <input
-                  type="checkbox"
-                  id="lock-slnt"
-                  data-type="shared"
-                  data-property="--slnt"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <label for="font-size">
-                Font size
-                <input
-                  type="range"
-                  id="font-size"
-                  min="0"
-                  max="127"
-                  data-property="--size"
-                />
-              </label>
-              <label for="lock-font-size">
-                <input
-                  type="checkbox"
-                  id="lock-font-size"
-                  data-type="shared"
-                  data-property="--size"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <label for="hue">
-                Hue
-                <input type="range" id="hue" min="0" max="127" data-property="--h" />
-              </label>
-              <label for="lock-hue">
-                <input
-                  type="checkbox"
-                  id="lock-hue"
-                  data-type="shared"
-                  data-property="--h"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <label for="saturation">
-                Saturation
-                <input
-                  type="range"
-                  id="saturation"
-                  min="0"
-                  max="127"
-                  data-property="--s"
-                />
-              </label>
-              <label for="lock-saturation">
-                <input
-                  type="checkbox"
-                  id="lock-saturation"
-                  data-type="shared"
-                  data-property="--s"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <label for="lightness">
-                Lightness
-                <input
-                  type="range"
-                  id="lightness"
-                  min="0"
-                  max="127"
-                  data-property="--l"
-                />
-              </label>
-              <label for="lock-lightness">
-                <input
-                  type="checkbox"
-                  id="lock-lightness"
-                  data-type="shared"
-                  data-property="--l"
-                />Lock
-              </label>
-            </li>
-            <li>
-              <button type="button" id="randomise">Randomise</button>
-            </li>
-            <li>
-              <button type="button" id="toggle-animation">
-                Start animation
-              </button>
-            </li>
-            <li>
-              <button type="button" id="toggle-dark-mode">Dark mode off</button>
-            </li>
-          </ul>
+          <div class="grid">
+            <div></div>
+            <div>Lock</div>
+            <div>CC</div>
+            <ul class="">
+              <li>
+                <label for="mono">
+                  Monospace
+                  <input
+                    type="range"
+                    id="mono"
+                    min="0"
+                    max="127"
+                    data-property="--mono"
+                  />
+                </label>
+                <label for="lock-mono">
+                  <input
+                    type="checkbox"
+                    id="lock-mono"
+                    data-property="--mono"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-mono">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-mono"
+                    min="0"
+                    max="127"
+                    data-property="--mono"
+                  />
+                </label>
+              </li>
+              <li>
+                <label for="casl">
+                  Casual
+                  <input
+                    type="range"
+                    id="--casl"
+                    min="0"
+                    max="127"
+                    data-property="--casl"
+                  />
+                </label>
+                <label for="lock-casl">
+                  <input
+                    type="checkbox"
+                    id="lock-casl"
+                    data-property="--casl"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-casl">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-casl"
+                    min="0"
+                    max="127"
+                    data-property="--casl"
+                  />
+                </label>
+              </li>
+              <li>
+                <label for="wght">
+                  Weight
+                  <input
+                    type="range"
+                    id="wght"
+                    min="0"
+                    max="127"
+                    data-property="--wght"
+                  />
+                </label>
+                <label for="lock-wght">
+                  <input
+                    type="checkbox"
+                    id="lock-wght"
+                    data-property="--wght"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-wght">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-wght"
+                    min="0"
+                    max="127"
+                    data-property="--wght"
+                  />
+                </label>
+              </li>
+              <li>
+                <label for="slnt">
+                  Slant
+                  <input
+                    type="range"
+                    id="slnt"
+                    min="0"
+                    max="127"
+                    data-property="--slnt"
+                  />
+                </label>
+                <label for="lock-slnt">
+                  <input
+                    type="checkbox"
+                    id="lock-slnt"
+                    data-property="--slnt"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-slnt">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-slnt"
+                    min="0"
+                    max="127"
+                    data-property="--slnt"
+                  />
+                </label>
+              </li>
+              <li>
+                <label for="font-size">
+                  Font size
+                  <input
+                    type="range"
+                    id="font-size"
+                    min="0"
+                    max="127"
+                    data-property="--size"
+                  />
+                </label>
+                <label for="lock-font-size">
+                  <input
+                    type="checkbox"
+                    id="lock-font-size"
+                    data-property="--size"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-size">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-size"
+                    min="0"
+                    max="127"
+                    data-property="--size"
+                  />
+                </label>
+              </li>
+              <li>
+                <label for="hue">
+                  Hue
+                  <input
+                    type="range"
+                    id="hue"
+                    min="0"
+                    max="127"
+                    data-property="--h"
+                  />
+                </label>
+                <label for="lock-hue">
+                  <input
+                    type="checkbox"
+                    id="lock-hue"
+                    data-property="--h"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-hue">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-hue"
+                    min="0"
+                    max="127"
+                    data-property="--h"
+                  />
+                </label>
+              </li>
+              <li>
+                <label for="saturation">
+                  Saturation
+                  <input
+                    type="range"
+                    id="saturation"
+                    min="0"
+                    max="127"
+                    data-property="--s"
+                  />
+                </label>
+                <label for="lock-saturation">
+                  <input
+                    type="checkbox"
+                    id="lock-saturation"
+                    data-property="--s"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-saturation">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-saturation"
+                    min="0"
+                    max="127"
+                    data-property="--s"
+                  />
+                </label>
+              </li>
+              <li>
+                <label for="lightness">
+                  Lightness
+                  <input
+                    type="range"
+                    id="lightness"
+                    min="0"
+                    max="127"
+                    data-property="--l"
+                  />
+                </label>
+                <label for="lock-lightness">
+                  <input
+                    type="checkbox"
+                    id="lock-lightness"
+                    data-property="--l"
+                  /><span class="sr-only">Lock</span>
+                </label>
+                <label for="cc-lightness">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-lightness"
+                    min="0"
+                    max="127"
+                    data-property="--l"
+                  />
+                </label>
+              </li>
+              <li>
+                <button type="button" id="randomise">Randomise</button>
+                <label for="cc-randomise">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-randomise"
+                    min="0"
+                    max="127"
+                  />
+                </label>
+              </li>
+              <li>
+                <button type="button" id="toggle-animation">
+                  Start animation
+                </button>
+                <label for="cc-toggle-animation">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-toggle-animation"
+                    min="0"
+                    max="127"
+                  />
+                </label>
+              </li>
+              <li>
+                <button type="button" id="toggle-dark-mode">
+                  Dark mode off
+                </button>
+                <label for="cc-toggle-dark-mode">
+                  <span class="sr-only">CC</span>
+                  <input
+                    type="number"
+                    id="cc-toggle-dark-mode"
+                    min="0"
+                    max="127"
+                  />
+                </label>
+              </li>
+            </ul>
+          </div>
         </details>
       </div>
       <div class="output">

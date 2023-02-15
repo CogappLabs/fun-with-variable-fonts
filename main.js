@@ -10,24 +10,28 @@ const textElem = document.getElementById("text");
 const shared = {
   params: [
     {
+      id: "size",
       property: "--size",
       setter: (value) => `${map(value, [0, 127], [24, 128])}px`,
       locked: false,
       ccNumber: 5,
     },
     {
+      id: "hue",
       property: "--h",
       setter: (value) => `${map(value, [0, 127], [0, 360])}`,
       locked: false,
       ccNumber: 6,
     },
     {
+      id: "saturation",
       property: "--s",
       setter: (value) => `${map(value, [0, 127], [0, 100])}%`,
       locked: false,
       ccNumber: 7,
     },
     {
+      id: "lightness",
       property: "--l",
       setter: (value) =>
         // Restrict lightness to prevent text disappearing into background
@@ -36,6 +40,7 @@ const shared = {
       ccNumber: 8,
     },
     {
+      id: "randomise",
       action: (status) => {
         if (status.startsWith("9")) {
           randomiseParameters(true);
@@ -45,6 +50,7 @@ const shared = {
       ccNumber: 40,
     },
     {
+      id: "toggle-animation",
       action: (status) => {
         // Note-on event
         if (status.startsWith("9")) {
@@ -54,6 +60,7 @@ const shared = {
       ccNumber: 41,
     },
     {
+      id: "toggle-dark-mode",
       action: (status) => {
         // Note-on event
         if (status.startsWith("9")) {
@@ -70,24 +77,28 @@ const recursive = {
   fontFamily: "'Recursive', monospace",
   params: [
     {
+      id: "mono",
       property: "--mono",
       setter: (value) => `"MONO" ${map(value, [0, 127], [0, 1])}`,
       locked: false,
       ccNumber: 1,
     },
     {
+      id: "casl",
       property: "--casl",
       setter: (value) => `"CASL" ${map(value, [0, 127], [0, 1])}`,
       locked: false,
       ccNumber: 2,
     },
     {
+      id: "wght",
       property: "--wght",
       setter: (value) => `"wght" ${map(value, [0, 127], [300, 1000])}`,
       locked: false,
       ccNumber: 3,
     },
     {
+      id: "slnt",
       property: "--slnt",
       setter: (value) => `"slnt" ${map(value, [0, 127], [-15, 0])}`,
       locked: false,
@@ -201,6 +212,18 @@ function updateCustomProperty(status, ccNumber, value) {
   // There may be a more performant way of doing this check
   const matchingParams = combinedParams.filter((param) => param.ccNumber === ccNumber)
 
+  const activeElement = document.activeElement;
+
+  // If we're currently on a 'cc' input
+  if (activeElement && activeElement.tagName.toLowerCase() == 'input' && activeElement.type === 'number') {
+    activeElement.value = ccNumber.toString(10)
+    // Create a new 'change' event
+    const event = new Event('change');
+    // Dispatch it.
+    activeElement.dispatchEvent(event);
+    return;
+  }
+
   if (matchingParams.length > 0) {
     // A single CC number could control multiple parameters
     matchingParams.forEach((param) => {
@@ -272,7 +295,7 @@ sliders.forEach((input) =>
     ];
 
     const value = e.currentTarget.value;
-    const param = combinedParams.find((param) => param.property === e.currentTarget.dataset.property)
+    const param = combinedParams.find((param) => param.id === e.currentTarget.id)
 
     textElem.style.setProperty(
       param.property,
@@ -292,10 +315,38 @@ lockCheckboxes.forEach((input) =>
     ];
 
     const checked = e.currentTarget.checked;
-    const param = combinedParams.find((param) => param.property === e.currentTarget.dataset.property)
+    // Remove 'lock-'
+    const param = combinedParams.find((param) => param.id === e.currentTarget.id.slice(5))
     param.locked = checked;
   })
 );
+
+const ccInputs = document.querySelectorAll('input[type="number"]');
+
+ccInputs.forEach((input) => {
+  const combinedParams = [
+    ...shared.params,
+    ...recursive.params,
+  ];
+
+  // Set initial values
+  // Remove 'cc-'
+  const param = combinedParams.find((param) => param.id === input.id.slice(3))
+  input.value = param.ccNumber
+  
+  // Listen for changes
+  input.addEventListener("change", (e) => {
+    const combinedParams = [
+      ...shared.params,
+      ...recursive.params,
+    ];
+
+    const value = e.currentTarget.value;
+    // Remove 'cc-'
+    const param = combinedParams.find((param) => param.id === e.currentTarget.id.slice(3))
+    param.ccNumber = parseInt(value, 10);
+  })
+});
 
 const randomiseButton = document.querySelector("#randomise");
 
